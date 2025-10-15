@@ -1,0 +1,64 @@
+import time
+import random
+
+# Função de Busca Linear (O(n))
+def busca_linear(lista, alvo):
+    for i in range(len(lista)):
+        if lista[i] == alvo:
+            return i  # Retorna o Índice
+    return -1
+
+# Função de Busca Binária (O(log n))
+def busca_binaria(lista, alvo):
+    inicio = 0
+    fim = len(lista) - 1
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+        if lista[meio] == alvo:
+            return meio
+        elif lista[meio] < alvo:
+            inicio = meio + 1
+        else:
+            fim = meio - 1
+    return -1
+
+# Função Principal
+def main():
+    # Gerar Lista Ordenada de 10.000 números
+    lista = list(range(1, 10001))
+
+    # Perguntar ao Usuário o Número a ser Procurado
+    try:
+        numero = int(input("Digite um número entre 1 e 10000 para procurar na lista: "))
+    except ValueError:
+        print("Por favor, digite um número válido.")
+        return
+
+    if not (1 <= numero <= 10000):
+        print("O número deve estar entre 1 e 10000.")
+        return
+
+    # Buscar usando busca linear
+    inicio_linear = time.time()
+    resultado_linear = busca_linear(lista, numero)
+    fim_linear = time.time()
+
+    # Buscar usando busca binária
+    inicio_binaria = time.time()
+    resultado_binaria = busca_binaria(lista, numero)
+    fim_binaria = time.time()
+
+    # Resultados
+    print("Resultados:")
+    print(f"Busca Linear: índice {resultado_linear}, tempo: {fim_linear - inicio_linear:.6f} segundos")
+    print(f"Busca Binária: índice {resultado_binaria}, tempo: {fim_binaria - inicio_binaria:.6f} segundos")
+
+    # Comparação
+    tempo_linear = fim_linear - inicio_linear
+    tempo_binaria = fim_binaria - inicio_binaria
+    ganho = tempo_linear / tempo_binaria if tempo_binaria > 0 else float('inf')
+    print(f"\nA busca binária foi aproximadamente {ganho:.2f}s mais rápida que a busca linear.")
+
+# Executar o programa
+if __name__ == "__main__":
+    main()
